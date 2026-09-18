@@ -1,4 +1,3 @@
-
 # Entornos y cachés
 .venv/
 venv/
@@ -12,7 +11,8 @@ __pycache__/
 !.env.example
 client_secret*.json
 token*.json
-youtube_token*.json
+.youtube_token.json
+.youtube_token*.json
 
 # Artefactos generados
 dist/*.mp4
