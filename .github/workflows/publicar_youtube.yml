@@ -1,0 +1,72 @@
+name: Generar y programar video en YouTube
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish_at:
+        description: "Fecha ISO 8601 opcional; si se omite usa las 21:00 de Argentina"
+        required: false
+        type: string
+  schedule:
+    # 23:30 UTC = 20:30 en Argentina (UTC-3).
+    - cron: "30 23 * * *"
+
+permissions:
+  contents: read
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PYTHONUNBUFFERED: "1"
+      YOUTUBE_PUBLISH_AT: "${{ inputs.publish_at }}"
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Instalar FFmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Instalar dependencias
+        run: python -m pip install -r requirements.txt
+
+      - name: Ejecutar pruebas
+        run: python -m pytest
+
+      - name: Generar MP4
+        run: python src/generar_video.py
+
+      - name: Validar MP4
+        run: python scripts/verificar_video.py dist/automatizacion_videos_n8n.mp4
+
+      - name: Guardar artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: video-automatizacion
+          path: dist/automatizacion_videos_n8n.mp4
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Programar video en YouTube
+        env:
+          YOUTUBE_CLIENT_ID: "${{ secrets.YOUTUBE_CLIENT_ID }}"
+          YOUTUBE_CLIENT_SECRET: "${{ secrets.YOUTUBE_CLIENT_SECRET }}"
+          YOUTUBE_REFRESH_TOKEN: "${{ secrets.YOUTUBE_REFRESH_TOKEN }}"
+        run: |
+          if [ -n "$YOUTUBE_PUBLISH_AT" ]; then
+            python src/subir_youtube.py \
+              --video dist/automatizacion_videos_n8n.mp4 \
+              --publish-at "$YOUTUBE_PUBLISH_AT"
+          else
+            python src/subir_youtube.py \
+              --video dist/automatizacion_videos_n8n.mp4
+          fi
