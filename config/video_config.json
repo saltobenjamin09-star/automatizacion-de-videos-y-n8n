@@ -1,0 +1,61 @@
+{
+  "project_name": "Automatización de videos y n8n",
+  "group": "LOS PANCHOS TITANICOS",
+  "title": "Automatización de videos con Python, GitHub Actions y n8n",
+  "description": "Proyecto académico que genera un video MP4 con Python y FFmpeg, lo programa en YouTube mediante OAuth 2.0 y automatiza recordatorios con n8n.",
+  "tags": [
+    "Python",
+    "FFmpeg",
+    "GitHub Actions",
+    "YouTube Data API",
+    "OAuth 2.0",
+    "n8n",
+    "automatización"
+  ],
+  "category_id": "27",
+  "output": "dist/automatizacion_videos_n8n.mp4",
+  "duration_seconds": 330,
+  "fps": 30,
+  "width": 1280,
+  "height": 720,
+  "timezone": "America/Argentina/Buenos_Aires",
+  "publish_local_time": "21:00",
+  "scenes": [
+    {
+      "title": "Automatización de videos",
+      "body": "Un flujo reproducible conecta Python, FFmpeg, GitHub Actions, YouTube y n8n.",
+      "duration": 55,
+      "accent": "#2563EB"
+    },
+    {
+      "title": "1. Generación local",
+      "body": "El script crea las escenas, las convierte a H.264 con audio AAC y valida el resultado con FFprobe.",
+      "duration": 55,
+      "accent": "#7C3AED"
+    },
+    {
+      "title": "2. Integración con GitHub",
+      "body": "El repositorio conserva el código, la configuración y la evidencia de los commits del proceso.",
+      "duration": 55,
+      "accent": "#059669"
+    },
+    {
+      "title": "3. GitHub Actions",
+      "body": "El workflow instala dependencias, genera el MP4, lo valida y conserva un artefacto descargable.",
+      "duration": 55,
+      "accent": "#D97706"
+    },
+    {
+      "title": "4. YouTube y OAuth 2.0",
+      "body": "El refresh token se guarda como secreto. La API sube el video privado y lo programa para las 21:00.",
+      "duration": 55,
+      "accent": "#DC2626"
+    },
+    {
+      "title": "5. n8n y cierre",
+      "body": "n8n dispara recordatorios a las 12:00 y 19:00. La automatización queda documentada y lista para defender.",
+      "duration": 55,
+      "accent": "#0891B2"
+    }
+  ]
+}
